@@ -25,3 +25,5 @@ As an alternative, you might also like to use this mode:
 
     iex -S phx.server # on UNIX-likes
     iex.bat --werl -S phx.server # in Windows Powershell
+
+[config/dev.exs]: https://github.com/FSTDT/fstdt/blob/master/config/dev.exs
