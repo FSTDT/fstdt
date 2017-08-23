@@ -21,7 +21,7 @@ then run these commands to start it up:
     # Start the webserver on http://localhost:4000/
     mix phx.server
 
-As an alternative, you might also like to use this mode:
+As an alternative, you might also like to run it with a REPL:
 
     iex -S phx.server # on UNIX-likes
     iex.bat --werl -S phx.server # in Windows Powershell
