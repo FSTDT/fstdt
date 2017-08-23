@@ -20,3 +20,8 @@ then run these commands to start it up:
     mix ecto.migrate
     # Start the webserver on http://localhost:4000/
     mix phx.server
+
+As an alternative, you might also like to use this mode:
+
+    iex -S phx.server # on UNIX-likes
+    iex.bat --werl -S phx.server # in Windows Powershell
