@@ -9,6 +9,10 @@ defmodule FstdtWeb.LegacyController do
     render conn, "todo.html", items: %{page: :faq}
   end
 
+  def pub_admin(conn, _params) do
+    render conn, "todo.html", items: %{page: :pub_admin}
+  end
+
   def quote(conn, %{"QID" => legacy_id}) do
     render conn, "todo.html", items: %{legacy_id: legacy_id}
   end

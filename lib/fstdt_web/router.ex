@@ -33,6 +33,7 @@ defmodule FstdtWeb.Router do
     get "/Top100.aspx", LegacyController, :top
     get "/Search.aspx", LegacyController, :search
     get "/FAQ.aspx", LegacyController, :faq
+    get "/PubAdmin.aspx", LegacyController, :pub_admin
   end
 
   # Other scopes may use custom stacks.
