@@ -8,6 +8,11 @@ defmodule FstdtWeb.LegacyController do
   def quote(conn, %{"QID" => legacy_id}) do
     render conn, "todo.html", items: %{legacy_id: legacy_id}
   end
+  def quote(conn, _params) do
+    conn
+    |> put_status(:not_found)
+    |> render(FstdtWeb.ErrorView, :'404')
+  end
 
   def archive(conn, %{"Archive" => legacy_id}) do
     archive_(conn, legacy_id)
