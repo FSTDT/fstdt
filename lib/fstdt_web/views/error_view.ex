@@ -1,6 +1,10 @@
 defmodule FstdtWeb.ErrorView do
   use FstdtWeb, :view
 
+  def render("400.html", _assigns) do
+    "Invalid request"
+  end
+
   def render("404.html", _assigns) do
     "Page not found"
   end
