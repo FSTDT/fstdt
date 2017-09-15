@@ -2,7 +2,7 @@ defmodule FstdtWeb.LegacyController do
   use FstdtWeb, :controller
 
   def default(conn, _params) do
-    redirect(conn, to: page_path(conn, :index))
+    redirect(conn, to: index_path(conn, :index))
   end
 
   def faq(conn, _params) do

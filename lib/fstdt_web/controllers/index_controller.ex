@@ -1,4 +1,4 @@
-defmodule FstdtWeb.PageController do
+defmodule FstdtWeb.IndexController do
   use FstdtWeb, :controller
 
   def index(conn, _params) do

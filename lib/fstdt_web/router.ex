@@ -16,7 +16,7 @@ defmodule FstdtWeb.Router do
   scope "/", FstdtWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", IndexController, :index
   end
 
   # FSTDT is linked to. A lot. We are *not* going to break those old links.
