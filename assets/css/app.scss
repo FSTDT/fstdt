@@ -1,0 +1,179 @@
+@import "normalize";
+
+// Colors of the main content.
+$main-background-color: #EEE;
+$main-foreground-color: #000;
+
+// Colors of the header and footer.
+$chrome-background-color: #333;
+$chrome-border-color: #666;
+$chrome-foreground-color: #F00;
+
+// Lines of text will not get wider than this
+$max-line-width: 1000px;
+
+// Lines of text will not get narrower than this.
+$min-line-width: 500px;
+
+// Put this amount of space between the edge of the screen and any text.
+$line-edge-padding: 16px;
+
+// The size of the border between the header/footer and the main content.
+$chrome-border-width: 8px;
+
+// The size of the line separating each listing from each other,
+// and around the listing's callout.
+$listing-line-width: 1px;
+
+// Color of the lines separating each listing.
+$listing-line-color: #666;
+
+// The amount of space between each listing, including the line.
+$listing-separation-width: 16px;
+
+// The total width of the aside
+$listing-aside-width: 250px;
+
+// The amount of space between the aside and the listing.
+$listing-aside-spacing: 16px;
+
+// The total amount of space taken by the content at maximum width,
+// including the padding.
+$content-total-width: $max-line-width + $line-edge-padding * 2;
+
+// The total amount of space consumed by the aside, including the border and padding.
+$listing-aside-total-width:
+  $listing-aside-spacing +
+  $listing-aside-width;
+
+// The maximum width where the aside can be left to hang off the side of the content
+$listing-available-max-width:
+  $listing-aside-total-width * 2 +
+  $content-total-width;
+
+// The width when the callout cannot just be outside the content,
+// because that makes the text column too narrow.
+$listing-collapse-max-width:
+  $min-line-width + $listing-aside-total-width;
+
+// The amount of space to pad a callout with
+$callout-padding: 16px;
+$callout-border-width: 1px;
+$callout-border-color: #666;
+
+// The site's fantasy font
+@font-face {
+  font-family: "FundieForte";
+  src: url("/FORTE.TTF") format("truetype");
+}
+
+html {
+  // Always show the scrollbar on the side; avoids ugly jumping
+  overflow-y: scroll;
+  background: $main-background-color;
+  color: $main-foreground-color;
+}
+
+// A little piece of CSS that should be built-in to the browsers,
+// but can't be because backwards compat.
+//
+// We've got "block links", which have a larger clickable area than the text itself.
+// Making the link change look when you mouse over them makes it easier for the user
+// to tell that it's there.
+:link:hover,
+:visited:hover {
+  text-decoration: none;
+}
+
+// The site's top and bottom areas,
+// including things like the site name and mod tools
+.chrome {
+  background: $chrome-background-color;
+  color: $chrome-foreground-color;
+  border: solid 0 $chrome-border-color;
+  h1 {
+    margin: 0;
+    font-family: "FundieForte", fantasy, sans-serif;
+  }
+  &.top {
+    border-bottom-width: $chrome-border-width;
+  }
+  &.bottom {
+    border-top-width: $chrome-border-width;
+  }
+}
+
+// Limit line length for readability reasons
+.layout-wrapper {
+  max-width: $max-line-width;
+  margin: 0 auto;
+  padding: $line-edge-padding;
+}
+
+// A line-separated listing,
+// used to present both quotes and comments
+.listing {
+  & > .item {
+    display: block;
+    position: relative;
+    border-top: solid $listing-line-width $listing-line-color;
+    padding-top: ($listing-separation-width/2)-($listing-line-width/2);
+    margin-top: ($listing-separation-width/2)-($listing-line-width/2);
+    &:first-child {
+      border-top: none;
+      padding-top: 0;
+      margin-top: 0;
+    }
+  }
+  // Modifies the layout if this listing has "asides"
+  // which are sticky pieces of meta-info to the right (or top) of the an item.
+  &.has-aside {
+    & > .item {
+      & > aside {
+        position: sticky;
+        z-index: 100;
+        top: $listing-separation-width;
+        width: 0;
+        float: right;
+        & > div {
+          width: $listing-aside-width;
+          margin-left: $listing-aside-spacing;
+        }
+      }
+      @media (max-width: $listing-available-max-width) {
+        padding-right: $listing-aside-total-width;
+      }
+      @media (max-width: $listing-collapse-max-width) {
+        padding-right: 0;
+        & > aside {
+          float: none;
+          width: auto;
+          & > div {
+            width: auto;
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+}
+.aside-narrow-mode-show {
+  display: none;
+}
+// Aside-centric responsive helper classes.
+@media (max-width: $listing-collapse-max-width) {
+  .aside-narrow-mode-hide {
+    display: none !important;
+  }
+  .aside-narrow-mode-show {
+    display: block !important;
+  }
+}
+
+// Callouts; just put it in a box
+.callout {
+  background: $main-background-color;
+  color: $main-foreground-color;
+  padding: $callout-padding;
+  border: solid $callout-border-width $callout-border-color;
+}
