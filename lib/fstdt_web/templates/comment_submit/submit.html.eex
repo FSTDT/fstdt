@@ -1,0 +1,3 @@
+<h3>This is what the comment will look like</h3>
+
+<%= Phoenix.HTML.raw(@comment_html) %>

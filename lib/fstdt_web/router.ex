@@ -48,14 +48,14 @@ defmodule FstdtWeb.Router do
     # and does not need to be kept forever.
     # No error should be shown to the user if a duplicate is detected;
     # if their connection is flaky, that's fine.
-    put "/:submission", QuoteSubmitController, :submit
+    put "/:nonce", QuoteSubmitController, :submit
   end
 
   scope "/q/", FstdtWeb do
     pipe_through :browser
 
     get "/:quote/", QuotePageController, :show
-    put "/:quote/comments/:submission", CommentSubmitController, :submit
+    put "/:quote/comments/:nonce", CommentSubmitController, :submit
   end
 
   scope "/admin/", FstdtWeb do

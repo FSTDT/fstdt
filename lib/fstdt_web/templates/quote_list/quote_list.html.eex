@@ -1,31 +1,5 @@
 <div class="listing has-aside">
-  <%= for %{fundie_index: fundie_index, comment_count: comment_count, body_html: body_html, author: %{name: author}, board: %{name: board}, submitter: %{name: submitter}, url: url} <- @quotes do %>
-  <article class="item">
-    <aside><div><div class="callout">
-      <div class="listing">
-        <a class="item" href="<%= url %>">
-          Written by <strong><%= author %></strong> on <strong><%= board %></strong>
-        </a>
-        <a class="item aside-narrow-mode-hide" href="submitter">
-          Submitted by <strong><%= submitter %></strong>
-        </a>
-        <a class="item aside-narrow-mode-hide" href="comments">
-          <%= comment_count %> comments
-        </a>
-        <span class="item">
-          <button>😲️</button> <%= fundie_index %> <button>😐️</button>
-        </span>
-      </div>
-    </div></div></aside>
-    <p><%= Phoenix.HTML.raw(body_html) %></p>
-    <div class="aside-narrow-mode-show callout"><div class="listing">
-      <a class="item" href="submitter">
-        Submitted by <strong><%= submitter %></strong>
-      </a>
-      <a class="item" href="comments">
-        <%= comment_count %> comments
-      </a>
-    </div></div>
-  </article>
+  <%= for quote_ <- @quotes do %>
+    <%= render FstdtWeb.QuoteView, "quote.html", quote: quote_, conn: @conn %>
   <% end %>
 </div>
