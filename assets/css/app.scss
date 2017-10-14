@@ -1,5 +1,7 @@
 @import "normalize";
 
+$transition-duration: 0.1s;
+
 // Colors of the main content.
 $main-background-color: #EEE;
 $main-foreground-color: #000;
@@ -69,6 +71,23 @@ $textentry-border-width-active: 2px;
 $textentry-border-color-active: #333;
 $textentry-background-active: #FFF;
 
+// Subtle buttons
+$btn-margin: 8px;
+$btn-padding: 8px;
+$btn-border-width: 1px;
+$btn-color: #5566CC;
+$btn-background: #BBCCFF;
+$btn-background-active: #5566CC;
+$btn-color-active: #FFF;
+$btn-danger-color: #CC4466;
+$btn-danger-background: #FFCCCC;
+$btn-danger-color-active: #FFF;
+$btn-danger-background-active: #CC4466;
+$btn-other-color: #666;
+$btn-other-background: #CCC;
+$btn-other-color-active: #FFF;
+$btn-other-background-active: #666;
+
 // The site's fantasy font
 @font-face {
   font-family: "FundieForte";
@@ -80,6 +99,10 @@ html {
   overflow-y: scroll;
   background: $main-background-color;
   color: $main-foreground-color;
+}
+
+* {
+  transition-duration: $transition-duration;
 }
 
 // A little piece of CSS that should be built-in to the browsers,
@@ -194,19 +217,20 @@ html {
   border: solid $textentry-border-width $textentry-border-color;
   color: inherit;
   font-family: inherit;
+  font-size: inherit;
   white-space: pre-wrap;
-  outline: none;
   z-index: 1;
   resize: none;
   line-height: inherit;
   background: $main-background-color;
+  transition-property: background;
+  outline: solid 0px $textentry-border-color-active;
   overflow: hidden;
   &:hover, &:active, &:focus {
     background: #FFF;
   }
   &:active, &:focus {
-    padding: $textentry-padding - $textentry-border-width-active;
-    border: solid $textentry-border-width-active $textentry-border-color-active;
+    outline-width: $textentry-border-width-active - $textentry-border-width;
   }
 }
 textarea.textentry-box {
@@ -216,4 +240,43 @@ textarea.textentry-box {
 }
 .textentry {
   position: relative;
+}
+
+.btn {
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  padding: $btn-padding;
+  margin: $btn-margin;
+  color: $btn-color;
+  text-decoration: none;
+  transition-property: background;
+  &:hover, &:active, &:focus {
+    background: $btn-background;
+  }
+  &[aria-checked="true"] {
+    background: $btn-background-active;
+    color: $btn-color-active;
+  }
+}
+.btn--danger {
+  color: $btn-danger-color;
+  &:hover, &:active, &:focus {
+    background: $btn-danger-background;
+  }
+  &[aria-checked="true"] {
+    background: $btn-danger-background-active;
+    color: $btn-danger-color-active;
+  }
+}
+.btn--other {
+  color: $btn-other-color;
+  &:hover, &:active, &:focus {
+    background: $btn-other-background;
+  }
+  &[aria-checked="true"] {
+    background: $btn-other-background-active;
+    color: $btn-other-color-active;
+  }
 }

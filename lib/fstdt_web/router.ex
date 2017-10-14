@@ -87,7 +87,8 @@ defmodule FstdtWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", FstdtWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", FstdtWeb do
+    pipe_through :api
+    post "/markdown-preview", MarkdownPreviewController, :preview
+  end
 end

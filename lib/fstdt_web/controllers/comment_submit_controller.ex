@@ -1,7 +1,7 @@
 defmodule FstdtWeb.CommentSubmitController do
   use FstdtWeb, :controller
 
-  def submit(conn, %{"quote" => q, "contents" => comment_markdown, "nonce" => n}) do
+  def submit(conn, %{"quote" => q, "comment" => %{"contents" => comment_markdown}, "nonce" => n}) do
     canonical_url = quote_page_url(conn, :show, q)
     {:ok, comment_html} = Rundown.convert(canonical_url, comment_markdown)
     render conn, "submit.html",

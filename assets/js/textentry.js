@@ -1,6 +1,6 @@
 let handleChange = function(e) {
   let field = e.target;
-  let pre = field.fstdt__pre;
+  let pre = field.fstdt__textentry__pre;
   let val = field.value;
   pre.innerHTML = "";
   pre.appendChild(document.createTextNode(field.value));
@@ -20,7 +20,7 @@ for (field of fields) {
   field.className = "textentry-box";
   field.parentNode.insertBefore(wrapper, field);
   field.parentNode.removeChild(field);
-  field.fstdt__pre = pre;
+  field.fstdt__textentry__pre = pre;
   field.addEventListener("keydown", handleChange);
   field.addEventListener("keyup", handleChange);
   field.addEventListener("change", handleChange);

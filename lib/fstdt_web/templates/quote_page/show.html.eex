@@ -2,9 +2,13 @@
   <%= render FstdtWeb.QuoteView, "quote.html", quote: @quote, conn: @conn %>
   <section class="item">
     <h3 id="comments">Comments</h3>
-    <%= form_for @conn, comment_submit_path(@conn, :submit, @quote.id, @comment_nonce), [as: :comment, method: :put], fn _ -> %>
-      <textarea class="js-textentry" name="contents"></textarea>
-      <input type="submit" value="Preview">
+    <%= form_for @conn, comment_submit_path(@conn, :submit, @quote.id, @comment_nonce), [as: :comment, method: :put], fn f -> %>
+      <%= textarea f, :contents, placeholder: "Leave a comment...", class: "js-textentry" %>
+      <%= submit "Submit", class: "btn" %>
+      <template class="js-preview" data-preview-contents="comment_contents" data-preview-url="<%= quote_page_url(@conn, :show, @quote.id) %>">
+        <button class="js-preview-button btn btn--other" aria-role="checkbox" aria-checked="false">Preview</button>
+        <div class="js-preview-area callout"></div>
+      </template>
     <% end %>
   </section>
 </div>
