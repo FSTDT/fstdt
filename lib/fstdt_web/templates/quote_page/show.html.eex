@@ -3,7 +3,7 @@
   <section class="item">
     <h3 id="comments">Comments</h3>
     <%= form_for @conn, comment_submit_path(@conn, :submit, @quote.id, @comment_nonce), [as: :comment, method: :put], fn _ -> %>
-      <textarea name="contents"></textarea>
+      <textarea class="js-textentry" name="contents"></textarea>
       <input type="submit" value="Preview">
     <% end %>
   </section>

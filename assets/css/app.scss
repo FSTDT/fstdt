@@ -61,6 +61,14 @@ $callout-padding: 16px;
 $callout-border-width: 1px;
 $callout-border-color: #666;
 
+// Smart text entry fields.
+$textentry-padding: 16px;
+$textentry-border-width: 1px;
+$textentry-border-color: #666;
+$textentry-border-width-active: 2px;
+$textentry-border-color-active: #333;
+$textentry-background-active: #FFF;
+
 // The site's fantasy font
 @font-face {
   font-family: "FundieForte";
@@ -176,4 +184,36 @@ html {
   color: $main-foreground-color;
   padding: $callout-padding;
   border: solid $callout-border-width $callout-border-color;
+}
+
+// Smart text entry fields, rather than having their own scrollbars,
+// just size themselves to whatever the user types.
+.textentry-box {
+  padding: $textentry-padding - $textentry-border-width;
+  margin: 0;
+  border: solid $textentry-border-width $textentry-border-color;
+  color: inherit;
+  font-family: inherit;
+  white-space: pre-wrap;
+  outline: none;
+  z-index: 1;
+  resize: none;
+  line-height: inherit;
+  background: $main-background-color;
+  overflow: hidden;
+  &:hover, &:active, &:focus {
+    background: #FFF;
+  }
+  &:active, &:focus {
+    padding: $textentry-padding - $textentry-border-width-active;
+    border: solid $textentry-border-width-active $textentry-border-color-active;
+  }
+}
+textarea.textentry-box {
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  z-index: 2;
+}
+.textentry {
+  position: relative;
 }
