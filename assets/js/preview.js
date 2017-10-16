@@ -48,9 +48,10 @@ function handleButtonClick(e) {
   }
   handleChange({target: contents});
 }
-let templates = document.getElementsByClassName("js-preview");
+let templates = Array.prototype.slice.call(document.getElementsByClassName("js-preview"));
 let template;
-for (template of templates) {
+for (var i = 0; i !== templates.length; ++i) {
+  template = templates[i];
   let contents = document.getElementById(template.getAttribute("data-preview-contents"));
   let preview = document.importNode(template.content, true);
   let button = preview.querySelector(".js-preview-button");

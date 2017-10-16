@@ -10,9 +10,10 @@ let handleChange = function(e) {
   field.style.height = sty.height;
   field.style.width = sty.width;
 };
-let fields = document.getElementsByClassName("js-textentry");
+let fields = Array.prototype.slice.call(document.getElementsByClassName("js-textentry"));
 let field;
-for (field of fields) {
+for (var i = 0; i !== fields.length; ++i) {
+  field = fields[i];
   let wrapper = document.createElement("div");
   wrapper.className = "textentry";
   let pre = document.createElement("pre");
@@ -28,5 +29,5 @@ for (field of fields) {
   field.addEventListener("cut", handleChange);
   wrapper.appendChild(field);
   wrapper.appendChild(pre);
-  handleChange({target: field});
+  setTimeout(() => handleChange({target: field}), 0);
 }

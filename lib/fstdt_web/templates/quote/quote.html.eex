@@ -16,7 +16,7 @@
       </span>
     </div>
   </div></div></aside>
-  <p><%= Phoenix.HTML.raw(body_html) %></p>
+  <%= Phoenix.HTML.raw(body_html) %>
   <div class="aside-narrow-mode-show callout"><div class="listing">
     <a class="item" href="submitter">
       Submitted by <strong><%= submitter %></strong>
