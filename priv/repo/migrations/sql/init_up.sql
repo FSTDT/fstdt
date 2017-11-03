@@ -120,9 +120,9 @@ create table stats_displays (
     id                  bigserial primary key,
     size_small          integer not null,
     size_large          integer not null,
-    is_landscape        integer not null,
-    is_portrait         integer not null,
-    unique_users        bigint not null,
-    total_users         bigint not null,
+    unique_users_ls     bigint not null,
+    total_users_ls      bigint not null,
+    unique_users_pt     bigint not null,
+    unique_users_ls     bigint not null,
     unique (size_small, size_large)
 );
