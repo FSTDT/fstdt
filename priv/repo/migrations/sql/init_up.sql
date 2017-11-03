@@ -105,7 +105,8 @@ create table comments (
     date_posted         timestamp without time zone not null,
     date_modified       timestamp without time zone,
     text                character varying (65536) not null,     
-    is_visible          boolean not null
+    is_visible          boolean not null,
+    use_yscodes         boolean not null
 );
 
 create table stats_useragents (
