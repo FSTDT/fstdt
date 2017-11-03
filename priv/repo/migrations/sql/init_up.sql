@@ -18,7 +18,7 @@ create table banned_IPs (
     address             character (16) unique not null,
     date_banned         timestamp without time zone not null,
     date_expires        timestamp without time zone not null,
-    banned_by           bigint references users (id),
+    banned_by           bigint references users (id) not null,
     remarks             character varying (512)
 );
 
@@ -42,10 +42,11 @@ create table banned_IPs (
 create table users (
     id                  bigserial primary key,
     username            character varying (128) not null,
+    nlzd_name           character varying (128),
     is_registered       boolean not null,
     date_registered     timestamp without time zone,
     email               character varying (512),
-    registration_ip     bigint not null references ip_addresses (id),
+    registration_ip     bigint references ip_addresses (id),
     pw_hash             character (512),
     pw_salt             character (512),
     account_type        smallint not null,
@@ -109,7 +110,9 @@ create table comments (
 
 create table stats_useragents (
     id                  BIGSERIAL primary key,
-    string              character varying (512) not null unique
+    string              character varying (512) not null unique,
+    unique_users        bigint not null,
+    total_users         bigint not null
 );
 
 create table stats_displays (
@@ -118,5 +121,7 @@ create table stats_displays (
     size_large          integer not null,
     is_landscape        integer not null,
     is_portrait         integer not null,
+    unique_users        bigint not null,
+    total_users         bigint not null,
     unique (size_small, size_large)
 );
