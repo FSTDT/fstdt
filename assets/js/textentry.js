@@ -1,3 +1,5 @@
+var toMarkdown = require("to-markdown");
+
 let handleChange = function(e) {
   let field = e.target;
   let pre = field.fstdt__textentry__pre;
@@ -10,9 +12,63 @@ let handleChange = function(e) {
   field.style.height = sty.height;
   field.style.width = sty.width;
 };
+let insertAtCursor = function(field, text) {
+  let startPos = field.selectionStart;
+  let endPos = field.selectionEnd;
+  field.value = field.value.substring(0, startPos) + text +
+    field.value.substring(endPos, field.value.length);
+  field.selectionStart = startPos + text.length;
+  field.selectionEnd = startPos + text.length;
+};
+let handlePaste = function(e) {
+  let field = e.target;
+  let items = e.clipboardData.items;
+  let items_l = items.length;
+  let used_item;
+  let used_goodness = 0;
+  let text;
+  for (let i = 0; i !== items_l; ++i) {
+    let item = items[i];
+    let goodness = -1;
+    switch (item.type.split(';')[0].replace(' ', '')) {
+      case "text/uri-list":
+        goodness = 1;
+        break;
+      case "text/plain":
+        goodness = 2;
+        break;
+      case "text/html":
+      case "application/xhtml+xml":
+        goodness = 3;
+        break;
+      case "text/markdown":
+        goodness = 4;
+        break;
+      default:
+        console.log("[paste] unsupported clipboard type: " + item.type);
+    }
+    if (goodness > used_goodness) {
+      used_item = item;
+      used_goodness = goodness;
+    }
+  }
+  if (used_goodness !== 0) {
+    e.preventDefault();
+    if (used_item.type === "text/html") {
+      console.log("[paste] convert HTML to Markdown");
+      used_item.getAsString(text => insertAtCursor(field, toMarkdown(text)));
+    } else {
+      console.log("[paste] plain text");
+      used_item.getAsString(text => insertAtCursor(field, text));
+    }
+  } else {
+    console.log("[paste] #13 support uploading images");
+  }
+};
 let fields = Array.prototype.slice.call(document.getElementsByClassName("js-textentry"));
 let field;
-for (var i = 0; i !== fields.length; ++i) {
+let field_l = fields.length;
+for (let i = 0; i !== field_l; ++i) {
   field = fields[i];
   let wrapper = document.createElement("div");
   wrapper.className = "textentry";
@@ -25,7 +81,7 @@ for (var i = 0; i !== fields.length; ++i) {
   field.addEventListener("keydown", handleChange);
   field.addEventListener("keyup", handleChange);
   field.addEventListener("change", handleChange);
-  field.addEventListener("paste", handleChange);
+  field.addEventListener("paste", handlePaste);
   field.addEventListener("cut", handleChange);
   wrapper.appendChild(field);
   wrapper.appendChild(pre);
