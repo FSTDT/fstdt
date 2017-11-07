@@ -8,20 +8,6 @@ create table ip_addresses (
     address             character (16) unique not null
 );
 
--- table: banned_IPs
---     contains banned ip addresses and address ranges
---     supports wildcards ? and *
---     set date expires to 0000/00/00 00:00 for permaban ?
-
-create table banned_IPs (
-    id                  bigserial primary key,
-    address             character (16) unique not null,
-    date_banned         timestamp without time zone not null,
-    date_expires        timestamp without time zone not null,
-    banned_by           bigint references users (id) not null,
-    remarks             character varying (512)
-);
-
 -- table: users
 --
 --    since users can enter a name without being registered,
@@ -46,13 +32,27 @@ create table users (
     is_registered       boolean not null,
     date_registered     timestamp without time zone,
     email               character varying (512),
-    registration_ip     bigint references ip_addresses (id),
+    registration_ip_id  bigint references ip_addresses (id),
     pw_hash             character (512),
     pw_salt             character (512),
     account_type        smallint not null,
     submission_count    bigint not null,
     comment_count       bigint not null,
     unique (username, is_registered)
+);
+
+-- table: banned_IPs
+--     contains banned ip addresses and address ranges
+--     supports wildcards ? and *
+--     set date expires to 0000/00/00 00:00 for permaban ?
+
+create table banned_IPs (
+    id                  bigserial primary key,
+    address             character (16) unique not null,
+    date_banned         timestamp without time zone not null,
+    date_expires        timestamp without time zone not null,
+    banned_by_id        bigint references users (id) not null,
+    remarks             character varying (512)
 );
 
 create table fundies (
@@ -123,6 +123,5 @@ create table stats_displays (
     unique_users_ls     bigint not null,
     total_users_ls      bigint not null,
     unique_users_pt     bigint not null,
-    unique_users_ls     bigint not null,
     unique (size_small, size_large)
 );
