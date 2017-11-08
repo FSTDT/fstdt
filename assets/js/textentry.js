@@ -57,6 +57,7 @@ let handlePaste = function(e) {
   } else {
     console.log("[paste] #13 support uploading images");
   }
+  handleChange(e);
 };
 let fields = Array.prototype.slice.call(document.getElementsByClassName("js-textentry"));
 let field;
