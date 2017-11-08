@@ -1,4 +1,5 @@
 var toMarkdown = require("to-markdown");
+var utils = require("./textentry-utils");
 
 let handleChange = function(e) {
   let field = e.target;
@@ -11,14 +12,6 @@ let handleChange = function(e) {
   let sty = window.getComputedStyle(pre);
   field.style.height = sty.height;
   field.style.width = sty.width;
-};
-let insertAtCursor = function(field, text) {
-  let startPos = field.selectionStart;
-  let endPos = field.selectionEnd;
-  field.value = field.value.substring(0, startPos) + text +
-    field.value.substring(endPos, field.value.length);
-  field.selectionStart = startPos + text.length;
-  field.selectionEnd = startPos + text.length;
 };
 let handlePaste = function(e) {
   let field = e.target;
@@ -56,10 +49,10 @@ let handlePaste = function(e) {
     e.preventDefault();
     if (used_item.type === "text/html") {
       console.log("[paste] convert HTML to Markdown");
-      used_item.getAsString(text => insertAtCursor(field, toMarkdown(text)));
+      used_item.getAsString(text => utils.insertAtCursor(field, toMarkdown(text)));
     } else {
       console.log("[paste] plain text");
-      used_item.getAsString(text => insertAtCursor(field, text));
+      used_item.getAsString(text => utils.insertAtCursor(field, text));
     }
   } else {
     console.log("[paste] #13 support uploading images");

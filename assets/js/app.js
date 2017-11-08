@@ -21,4 +21,5 @@ import "phoenix_html"
 // import socket from "./socket"
 
 import textentry from "./textentry"
+import textentry_rich from "./textentry-rich"
 import preview from "./preview"

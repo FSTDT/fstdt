@@ -9,6 +9,13 @@
         <button class="js-preview-button btn btn--other" aria-role="checkbox" aria-checked="false">Preview</button>
         <div class="js-preview-area callout"></div>
       </template>
+      <div style="float:right;font-family:monospace">
+        <template class="js-rich" data-rich-contents="comment_contents">
+          <button class="btn" data-rich-action="strong"><strong title="strong emphasis">B</strong></button>
+          <button class="btn" data-rich-action="em"><em title="emphasis">I</em></button>
+          <button class="btn" data-rich-action="blockquote"><span style="border:solid 1px currentColor;padding:0 4px" title="block quote">"</span></button>
+        </template>
+      </div>
     <% end %>
   </section>
 </div>
