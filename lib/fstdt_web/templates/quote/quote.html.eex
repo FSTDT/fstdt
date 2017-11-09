@@ -5,9 +5,9 @@
       <a class="item" href="<%= url %>">
         Written by <strong><%= author %></strong> on <strong><%= board %></strong>
       </a>
-      <a class="item aside-narrow-mode-hide" href="submitter">
+      <span class="item aside-narrow-mode-hide">
         Submitted by <strong><%= submitter %></strong>
-      </a>
+      </span>
       <a class="item aside-narrow-mode-hide" href="<%= quote_page_path(@conn, :show, id) %>#comments">
         <%= comment_count %> comments
       </a>
@@ -18,9 +18,9 @@
   </div></div></aside>
   <%= Phoenix.HTML.raw(body_html) %>
   <div class="aside-narrow-mode-show callout"><div class="listing">
-    <a class="item" href="submitter">
+    <span class="item">
       Submitted by <strong><%= submitter %></strong>
-    </a>
+    </span>
     <a class="item" href="comments">
       <%= comment_count %> comments
     </a>
