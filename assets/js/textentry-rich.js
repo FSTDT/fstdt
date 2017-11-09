@@ -6,10 +6,10 @@ let handleClick = function(e) {
   let field = button.fstdt__rich__contents;
   switch (button.fstdt__rich__action) {
     case "strong":
-      utils.insertAtCursor(field, "**" + utils.getSelected(field) + "**");
+      utils.wrapTextToggle(field, "**", "**");
       break;
     case "em":
-      utils.insertAtCursor(field, "**" + utils.getSelected(field) + "**");
+      utils.wrapTextToggle(field, "*", "*");
       break;
     case "blockquote":
       let startPos = field.selectionStart;
