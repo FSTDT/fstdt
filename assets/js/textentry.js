@@ -49,15 +49,20 @@ let handlePaste = function(e) {
     e.preventDefault();
     if (used_item.type === "text/html") {
       console.log("[paste] convert HTML to Markdown");
-      used_item.getAsString(text => utils.insertAtCursor(field, toMarkdown(text)));
+      used_item.getAsString(text => {
+        utils.insertAtCursor(field, toMarkdown(text))
+        handleChange(e);
+      });
     } else {
       console.log("[paste] plain text");
-      used_item.getAsString(text => utils.insertAtCursor(field, text));
+      used_item.getAsString(text => {
+        utils.insertAtCursor(field, text)
+        handleChange(e);
+      });
     }
   } else {
     console.log("[paste] #13 support uploading images");
   }
-  handleChange(e);
 };
 let fields = Array.prototype.slice.call(document.getElementsByClassName("js-textentry"));
 let field;
