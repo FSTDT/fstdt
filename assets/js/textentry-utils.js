@@ -16,6 +16,12 @@ let getSelected = function(field) {
 let wrapTextToggle = function(field, before, after) {
   let startPos = field.selectionStart;
   let endPos = field.selectionEnd;
+  while (field.value[startPos] == ' ') {
+    startPos += 1;
+  }
+  while (field.value[endPos-1] == ' ') {
+    endPos -= 1;
+  }
   let beforePart = field.value.substring(0, startPos);
   let insidePart = field.value.substring(startPos, endPos);
   let afterPart = field.value.substring(endPos);
