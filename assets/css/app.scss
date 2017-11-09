@@ -147,6 +147,7 @@ html {
   max-width: $max-line-width;
   margin: 0 auto;
   padding: $line-edge-padding;
+  overflow: hidden;
 }
 
 // A line-separated listing,
@@ -256,6 +257,9 @@ textarea.textentry-box {
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
   z-index: 2;
+}
+pre.textentry-box {
+  border-color: transparent;
 }
 .textentry {
   position: relative;

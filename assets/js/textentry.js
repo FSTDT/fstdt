@@ -1,8 +1,13 @@
+const resize_debounce_ms = 250;
+
+let fields = Array.prototype.slice.call(document.getElementsByClassName("js-textentry"));
+let field;
+let field_l = fields.length;
+
 var toMarkdown = require("to-markdown");
 var utils = require("./textentry-utils");
 
-let handleChange = function(e) {
-  let field = e.target;
+let doHandleChange = function(field) {
   let pre = field.fstdt__textentry__pre;
   let val = field.value;
   pre.innerHTML = "";
@@ -12,6 +17,20 @@ let handleChange = function(e) {
   let sty = window.getComputedStyle(pre);
   field.style.height = sty.height;
   field.style.width = sty.width;
+};
+let handleChange = function(e) {
+  doHandleChange(e.target);
+};
+let windowHandleChange = function() {
+  if (!window.fstdt__textentry__window__debounce) {
+    window.fstdt__textentry__window__debounce = setTimeout(doWindowHandleChange, resize_debounce_ms);
+  }
+};
+let doWindowHandleChange = function() {
+  for (let i = 0; i !== field_l; ++i) {
+    doHandleChange(fields[i]);
+  }
+  delete window.fstdt__textentry__window__debounce;
 };
 let handlePaste = function(e) {
   let field = e.target;
@@ -64,9 +83,6 @@ let handlePaste = function(e) {
     console.log("[paste] #13 support uploading images");
   }
 };
-let fields = Array.prototype.slice.call(document.getElementsByClassName("js-textentry"));
-let field;
-let field_l = fields.length;
 for (let i = 0; i !== field_l; ++i) {
   field = fields[i];
   let wrapper = document.createElement("div");
@@ -86,3 +102,4 @@ for (let i = 0; i !== field_l; ++i) {
   wrapper.appendChild(pre);
   setTimeout(() => handleChange({target: field}), 0);
 }
+window.addEventListener("resize", windowHandleChange);
