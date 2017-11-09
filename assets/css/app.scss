@@ -269,6 +269,8 @@ textarea.textentry-box {
   padding: $btn-padding;
   margin: $btn-margin;
   color: $btn-color;
+  text-align: center;
+  min-width: 40px;
   line-height: inherit;
   text-decoration: underline;
   transition-property: background;
