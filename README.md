@@ -44,3 +44,15 @@ As an alternative, you might also like to run it with a REPL:
     iex.bat --werl -S phx.server # in Windows Powershell
 
 [config/dev.exs]: https://github.com/FSTDT/fstdt/blob/master/config/dev.exs
+
+# License
+
+The software itself is licensed under the Mozilla Public License,
+and if you make contributions and don't say otherwise,
+you're agreeing to license your code under the same agreement.
+
+We use some graphical assets from [The Noun Project], in `assets/static/images/noun_project/`.
+Those are either under a public domain declaration, or a Creative Commons Attribution (CC-BY) license,
+depending on the icon.
+
+[The Noun Project]: https://thenounproject.com/

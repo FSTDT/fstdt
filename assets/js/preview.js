@@ -69,6 +69,5 @@ for (var i = 0; i !== templates.length; ++i) {
   button.fstdt__preview__url = template.getAttribute("data-preview-url");
   button.addEventListener("click", handleButtonClick);
   handleChange({target: contents});
-  template.parentNode.appendChild(button);
-  template.parentNode.appendChild(area);
+  template.parentNode.insertBefore(preview, template);
 }

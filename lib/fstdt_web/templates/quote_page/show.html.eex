@@ -4,16 +4,16 @@
     <h3 id="comments">Comments</h3>
     <%= form_for @conn, comment_submit_path(@conn, :submit, @quote.id, @comment_nonce), [as: :comment, method: :put], fn f -> %>
       <%= textarea f, :contents, placeholder: "Leave a comment...", class: "js-textentry" %>
-      <%= submit "Submit", class: "btn" %>
       <template class="js-preview" data-preview-contents="comment_contents" data-preview-url="<%= quote_page_url(@conn, :show, @quote.id) %>">
-        <button class="js-preview-button btn btn--other" aria-role="checkbox" aria-checked="false">Preview</button>
         <div class="js-preview-area callout"></div>
+        <button class="js-preview-button btn btn--other" aria-role="checkbox" aria-checked="false">Preview</button>
       </template>
-      <div style="float:right;font-family:monospace">
+      <%= submit "Submit", class: "btn", style: "float:left" %>
+      <div style="float:right">
         <template class="js-rich" data-rich-contents="comment_contents">
-          <button class="btn" data-rich-action="strong"><strong title="strong emphasis">B</strong></button>
-          <button class="btn" data-rich-action="em"><em title="emphasis">I</em></button>
-          <button class="btn" data-rich-action="blockquote"><span style="border:solid 1px currentColor;padding:0 4px" title="block quote">"</span></button>
+          <button class="btn btn--other" data-rich-action="strong" title="strong emphasis"><img width=12 height=12 src="<%= static_path(@conn, "/images/noun_project/text_editing_and_copyrights/bold_font.svg") %>" alt="strong emphasis"></button>
+          <button class="btn btn--other" data-rich-action="em" title="emphasis"><img width=12 height=12 src="<%= static_path(@conn, "/images/noun_project/text_editing_and_copyrights/italic_font.svg") %>" alt="emphasis"></button>
+          <button class="btn btn--other" data-rich-action="blockquote" title="block quote"><img width=12 height=12 src="<%= static_path(@conn, "/images/noun_project/text_editing_and_copyrights/speech_bubble.svg") %>" alt="block quote"></button>
         </template>
       </div>
     <% end %>

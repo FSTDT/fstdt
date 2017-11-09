@@ -75,7 +75,7 @@ $textentry-background-active: #FFF;
 $btn-margin: 8px;
 $btn-padding: 8px;
 $btn-border-width: 1px;
-$btn-color: #5566CC;
+$btn-color: #0000EE;
 $btn-background: #BBCCFF;
 $btn-background-active: #5566CC;
 $btn-color-active: #FFF;
@@ -83,10 +83,11 @@ $btn-danger-color: #CC4466;
 $btn-danger-background: #FFCCCC;
 $btn-danger-color-active: #FFF;
 $btn-danger-background-active: #CC4466;
-$btn-other-color: #666;
+$btn-other-color: #000;
 $btn-other-background: #CCC;
 $btn-other-color-active: #FFF;
 $btn-other-background-active: #666;
+$btn-visited-color: #551A8B;
 
 // The site's fantasy font
 @font-face {
@@ -111,6 +112,13 @@ html {
 // We've got "block links", which have a larger clickable area than the text itself.
 // Making the link change look when you mouse over them makes it easier for the user
 // to tell that it's there.
+:link, :visited {
+  text-decoration: underline;
+  color: $btn-color;
+}
+:visited {
+  color: $btn-visited-color;
+}
 :link:hover,
 :visited:hover {
   text-decoration: none;
@@ -206,6 +214,7 @@ html {
   background: $main-background-color;
   color: $main-foreground-color;
   padding: $callout-padding;
+  margin: $callout-padding 0;
   border: solid $callout-border-width $callout-border-color;
 }
 
@@ -269,14 +278,16 @@ textarea.textentry-box {
   padding: $btn-padding;
   margin: $btn-margin;
   color: $btn-color;
-  text-decoration: none;
+  text-decoration: underline;
   transition-property: background;
   &:hover, &:active, &:focus {
     background: $btn-background;
+    text-decoration: none;
   }
   &[aria-checked="true"] {
     background: $btn-background-active;
     color: $btn-color-active;
+    text-decoration: none;
   }
 }
 .btn--danger {

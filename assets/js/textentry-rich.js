@@ -29,6 +29,7 @@ let handleClick = function(e) {
       }
       let afterPart = field.value.substring(endPos);
       field.value = beforePart + insidePart + afterPart;
+      field.focus();
       break;
     default:
       console.log("[rich] unknown action: " + button.fstdt__rich__action);
