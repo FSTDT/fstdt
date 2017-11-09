@@ -34,7 +34,7 @@ $listing-line-color: #666;
 $listing-separation-width: 16px;
 
 // The total width of the aside
-$listing-aside-width: 250px;
+$listing-aside-width: 300px;
 
 // The amount of space between the aside and the listing.
 $listing-aside-spacing: 16px;
@@ -164,6 +164,10 @@ html {
       margin-top: 0;
     }
   }
+  & > .item--compact {
+    padding-top: 0;
+    margin-bottom: -(($listing-separation-width/2)-($listing-line-width/2));
+  }
   // Modifies the layout if this listing has "asides"
   // which are sticky pieces of meta-info to the right (or top) of the an item.
   &.has-aside {
@@ -257,25 +261,6 @@ textarea.textentry-box {
   position: relative;
 }
 
-.growlink {
-  transition-property: transform;
-  transform: scale(1);
-  background: none;
-  outline: none;
-  border: none;
-  font-size: inherit;
-  font-weight: inherit;
-  font-family: inherit;
-  margin: 0;
-  padding: 0;
-  &:hover, &:focus {
-    transform: scale(1.5);
-  }
-  &:active {
-    transform: scale(0.75);
-  }
-}
-
 .btn {
   border: none;
   outline: none;
@@ -284,6 +269,7 @@ textarea.textentry-box {
   padding: $btn-padding;
   margin: $btn-margin;
   color: $btn-color;
+  line-height: inherit;
   text-decoration: underline;
   transition-property: background;
   &:hover, &:active, &:focus {
@@ -315,4 +301,10 @@ textarea.textentry-box {
     background: $btn-other-background-active;
     color: $btn-other-color-active;
   }
+}
+.btn-interstitial {
+  padding: $btn-padding;
+  margin: $btn-margin;
+  display: inline-block;
+  line-height: inherit;
 }

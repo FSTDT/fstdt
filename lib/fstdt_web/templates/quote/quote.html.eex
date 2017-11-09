@@ -11,8 +11,8 @@
       <a class="item aside-narrow-mode-hide" href="<%= quote_page_path(@conn, :show, id) %>#comments">
         <%= comment_count %> comments
       </a>
-      <span class="item">
-        <button class="growlink">😲️</button> <%= fundie_index %> <button class="growlink">😐️</button>
+      <span class="item item--compact" style="text-align:center">
+        <button class="btn" style="float:left">😲️ WTF?!</button> <span class="btn-interstitial"><%= fundie_index %></span> <button class="btn" style="float:right">😐️ meh</button>
       </span>
     </div>
   </div></div></aside>
