@@ -34,6 +34,7 @@ let handleClick = function(e) {
     default:
       console.log("[rich] unknown action: " + button.fstdt__rich__action);
   }
+  field.dispatchEvent(new Event("change"));
 }
 
 let templates = Array.prototype.slice.call(document.getElementsByClassName("js-rich"));
