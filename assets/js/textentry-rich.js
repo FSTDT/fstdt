@@ -18,6 +18,8 @@ let handleClick = function(e) {
       let beforePartNl = beforePart.lastIndexOf("\n");
       if (beforePartNl != -1) {
         beforePart = beforePart.substring(0, beforePartNl) + "\n> " + beforePart.substring(beforePartNl+1);
+      } else {
+        beforePart = "> " + beforePart;
       }
       let insidePart = field.value.substring(startPos, endPos);
       let insidePartNl = insidePart.indexOf("\n");
