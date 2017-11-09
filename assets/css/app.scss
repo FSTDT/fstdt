@@ -216,6 +216,12 @@ html {
   padding: $callout-padding;
   margin: $callout-padding 0;
   border: solid $callout-border-width $callout-border-color;
+  p {
+    margin-bottom: 0;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
 }
 
 // Smart text entry fields, rather than having their own scrollbars,
