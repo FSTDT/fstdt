@@ -42,6 +42,8 @@ defmodule FstdtWeb.Router do
   end
 
   scope "/submit/", FstdtWeb do
+    pipe_through :browser
+
     get "/", QuoteSubmitController, :index
     # The :submission ID is a UUID generated as part of the submit form.
     # It is used to detect duplicate submissions,

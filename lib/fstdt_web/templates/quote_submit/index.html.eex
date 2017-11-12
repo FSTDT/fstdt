@@ -1,0 +1,63 @@
+<%= form_for @conn, quote_submit_path(@conn, :submit, @nonce), [as: :quote, method: :put], fn f -> %><div class="listing no-line">
+  <div class=item>
+    <div class=form-group>
+      <label class=textentry-box-label for=quote_submitter>Your Name</label>
+      <%= text_input f, :submitter, class: "textentry-box textentry-box--compact", placeholder: "Insufferable McSmarmyGit PhD" %>
+    </div>
+  </div>
+  <div class=item>
+    <div class=form-group>
+      <label class=textentry-box-label for=quote_submittermail>Your Email</label>
+      <%= text_input f, :submittermail, class: "textentry-box textentry-box--compact", placeholder: "mcgit.insufferable@example.com" %>
+    </div>
+  </div>
+  <div class=item>
+    <div class=form-group>
+      <label for=quote_anon>
+        <%= checkbox f, :anon, class: "form-group-checkbox" %>
+        I'd like to receive credit for submitting this quote
+      </label>
+    </div>
+  </div>
+  <div class=item>
+    <%= textarea f, :contents, placeholder: "Copy quote to here...", class: "js-textentry textentry-box" %>
+    <template class="js-preview" data-preview-contents="quote_contents" data-preview-url="<%= quote_page_url(@conn, :show, 0) %>">
+      <div class="js-preview-area callout"></div>
+      <button class="js-preview-button btn btn--other" aria-role="checkbox" aria-checked="false">Preview</button>
+    </template>
+    <div style="float:right">
+      <template class="js-rich" data-rich-contents="quote_contents">
+        <button class="btn btn--other" data-rich-action="strong" title="strong emphasis"><img width=12 height=12 src="<%= static_path(@conn, "/images/noun_project/text_editing_and_copyrights/bold_font.svg") %>" alt="strong emphasis"></button>
+        <button class="btn btn--other" data-rich-action="em" title="emphasis"><img width=12 height=12 src="<%= static_path(@conn, "/images/noun_project/text_editing_and_copyrights/italic_font.svg") %>" alt="emphasis"></button>
+        <button class="btn btn--other" data-rich-action="blockquote" title="block quote"><img width=12 height=12 src="<%= static_path(@conn, "/images/noun_project/text_editing_and_copyrights/speech_bubble.svg") %>" alt="block quote"></button>
+      </template>
+    </div>
+  </div>
+  <div class=item>
+    <div class=form-group>
+      <label class=textentry-box-label for=quote_fundie>Fundie Name</label>
+      <%= text_input f, :fundie, class: "textentry-box textentry-box--compact", placeholder: "Simon McNut" %>
+    </div>
+  </div>
+  <div class=item>
+    <div class=form-group>
+      <label class=textentry-box-label for=quote_site>Site Name</label>
+      <%= text_input f, :site, class: "textentry-box textentry-box--compact", placeholder: "Green-Crayon-Online" %>
+    </div>
+  </div>
+  <div class=item>
+    <div class=form-group>
+      <label class=textentry-box-label for=quote_url>Original quote URL</label>
+      <%= text_input f, :url, class: "textentry-box textentry-box--compact", placeholder: "green-crayon.example" %>
+    </div>
+  </div>
+  <div class=item>
+    <div class=form-group>
+      <label class=textentry-box-label for=quote_categories>Categories</label>
+      <%= text_input f, :categories, class: "textentry-box textentry-box--compact", placeholder: "fstdt, rstdt" %>
+    </div>
+  </div>
+  <div class=item>
+    <%= submit "Submit Quote", class: "btn" %> <%= link "Submission Guidelines", to: "/guideline/" %>
+  </div>
+</div><% end %>
