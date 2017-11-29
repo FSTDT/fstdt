@@ -92,13 +92,13 @@ CREATE TABLE "stats_langs" (
     unique value, and we *must* be able to retrieve the value of that cookie and store 
     it in the database so it can be linked to the information associated with it. 
     Keeping a reasonable track of who's unique and who's not is simply not possible 
-    without this; IPs alone are very inaccurate: users may have more than one IP, and 
+    without this. IPs alone are very inaccurate: users may have more than one IP, and 
     one IP may have more than one user. 
     
-    To achieve this end, we can either manually set and retrieve a cookie ourself (my 
-    preferred option), or we can use the session cookies Phoenix assigns, provided that
-    it allows us to retrieve the values of its session cookies, and they either already 
-    have an adequately protracted expiration date or lets us assign one.
+    To achieve this end, we generate a 256 character random value and store it using
+    <https://hexdocs.pm/phoenix/Phoenix.Token.html> and a cookie. By detaching session
+    IDs from phoenix's session store, we can implement the logout button by wiping the
+    session store without allowing users to game the SPAM filter by banging logout.
     
     Sessions in the database exist independently of their implementation in the code. 
     All the database cares about is whether session identifiers are unique, have the
@@ -121,8 +121,8 @@ CREATE TABLE "stats_session_IDs" (
     "string"            CHARACTER (256) NOT NULL UNIQUE,
     "date_set"          TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "date_expires"      TIMESTAMP NOT NULL DEFAULT '9999/12/31 12:59:59',
-    "original_IP"       BIGINT REFERENCES NOT NULL "stats_IPs" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT,
-    "original_UA"       BIGINT REFERENCES NOT NULL "stats_UAs" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT,
+    "original_IP"       BIGINT NOT NULL REFERENCES "stats_IPs" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT,
+    "original_UA"       BIGINT NOT NULL REFERENCES "stats_UAs" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT,
     "original_lang_1"   BIGINT REFERENCES "stats_langs" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT,
     "original_lang_2"   BIGINT REFERENCES "stats_langs" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT,
     "original_lang_3"   BIGINT REFERENCES "stats_langs" ("id") ON UPDATE RESTRICT ON DELETE RESTRICT
@@ -151,31 +151,42 @@ create table "users" (
     UNIQUE              ("is_registered", "normalized")
 );
 
-INSERT INTO "users" ("username", "normalized", "is_registered", "date_first_seen") 
-    VALUES ('(anonymous)', 'anonymous', TRUE, '0000/01/01 00:00');
+INSERT INTO "users" ("id", "username", "normalized", "is_registered", "date_first_seen") 
+    VALUES (0, '(anonymous)', 'anonymous', TRUE, '0001/01/01 00:00');
 
 -- Differences in account types will be documented elsewhere.
 -- "username" and "normalized" are strategic redundancy taken from the users table. 
 
+-- `account_type` determines the level of privilege that the user gets
+--
+-- 0 (anon) - an account with this level is equivalent to an anonymous user
+-- 1 (noob) - this is the level of privilege that a user gets immediately upon signing up
+-- 2 (user) - users automatically gain this level of privilege after awhile
+-- 3 (leader) - admins and moderators can grant this level of privilege to users
+-- 4 (mod) - admins grant this level of privilege to users
+-- 5 (admin) - with this level, users can run arbitrary code on the server
+--
+-- You'll notice that there's nothing here for "banned users."
+-- Bans are handled in a separate table.
 CREATE TABLE "accounts" (
     "id"                    BIGSERIAL PRIMARY KEY,
-    "username_id"           BIGINT UNIQUE NOT NULL REFERENCES "users" ("id") ON UPDATE CASCADE [ON DELETE RESTRICT,
+    "user_id"               BIGINT UNIQUE NOT NULL REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE RESTRICT,
     "username"              CHARACTER VARYING (128) UNIQUE NOT NULL,
     "normalized"            CHARACTER VARYING (128) UNIQUE NOT NULL,
     "password_hash"         CHARACTER (256) UNIQUE NOT NULL,
     "password_salt"         CHARACTER (256) UNIQUE NOT NULL,                                                                     
     "registration_date"     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "registration_session"  BIGINT NOT NULL REFERENCES "sessions" ("id") ON UPDATE CASCADE ON DELETE RESTRICT,
+    -- "registration_session"  BIGINT NOT NULL REFERENCES "sessions" ("id") ON UPDATE CASCADE ON DELETE RESTRICT,
     "registration_email"    CHARACTER VARYING (256) NOT NULL,
     "current_email"         CHARACTER VARYING (256) NOT NULL,
     "account_type"          BIGINT NOT NULL DEFAULT 1                                                                                        
 );                                                                                      
                                                                                                 
 INSERT INTO "accounts" 
-    ("username_id", "username", "normalized", "password_hash", "password_salt", "registration_date",
-     "registration_session", "registration_session", "registration_email", "current_email", "account_type")
+    ("id", "user_id", "username", "normalized", "password_hash", "password_salt", "registration_date",
+     "registration_email", "current_email", "account_type")
 VALUES
-    (0, '(anonymous)', 'anonymous', '0', '0', '0000/01/01 00:00', 0, 'none@fstdt.org', 'none@fstdt.org', 0);
+    (0, 0, '(anonymous)', 'anonymous', '0', '0', '0001/01/01 00:00', 'none@fstdt.org', 'none@fstdt.org', 0);
      
 -- CREATE TABLE "account_requests" 
 -- TODO: Create views and SPs for each of these.
@@ -244,7 +255,7 @@ CREATE TABLE "quotes" (
     "views_unique"          BIGINT NOT NULL DEFAULT 0,
     "views_total"           BIGINT NOT NULL DEFAULT 0,
     "is_visible"            BOOLEAN NOT NULL DEFAULT TRUE,
-    "is_thread_locked"      BOOLEAN NOT NULL DEFAULT FAUSE,
+    "is_thread_locked"      BOOLEAN NOT NULL DEFAULT FALSE,
     "is_thread_visible"     BOOLEAN NOT NULL DEFAULT TRUE,
     "use_yscodes"           BOOLEAN NOT NULL DEFAULT FALSE
 );
@@ -257,7 +268,7 @@ CREATE TABLE "quotes_categories_link" (
     category_id         BIGINT REFERENCES "categories" ("id") ON UPDATE CASCADE ON DELETE RESTRICT,
     PRIMARY KEY ("quote_id", "category_id")
 );
-                                                                                                
+
 -- CREATE TABLE "submissions" ();
 -- CREATE TABLE "submission_info" ();
 -- CREATE TABLE "submissions_categories_link ();
@@ -268,7 +279,7 @@ CREATE TABLE "comments" (
     "id"                BIGSERIAL PRIMARY KEY,
     "quote_id"          BIGINT REFERENCES "quotes" ("id"),
     "author_id"         BIGINT REFERENCES "users" ("id"),
-    "session_id"        BIGINT REFERENCES "sessions" ("id"),
+    -- "session_id"        BIGINT REFERENCES "sessions" ("id"),
     "date_posted"       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "date_modified"     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "text"              CHARACTER VARYING (65536) NOT NULL,

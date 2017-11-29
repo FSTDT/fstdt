@@ -6,7 +6,7 @@
 <% end %>
 
 <ul>
-  <%= for %Fstdt.BannedIpsSchema{id: id, remarks: remarks, address: address} <- @banned_ips do %>
+  <%= for %{id: id, remarks: remarks, address: address} <- @banned_ips do %>
     <li>
       <%= address %> (<%= remarks %>)
       <%= link "Delete", to: banned_ip_admin_path(@conn, :delete, id), method: :delete, class: "btn btn--danger" %>

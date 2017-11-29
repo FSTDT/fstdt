@@ -18,6 +18,8 @@ defmodule FstdtWeb.Router do
 
     get "/", IndexController, :index
     get "/search", SearchController, :search
+    post "/login", AuthController, :login
+    post "/logout", AuthController, :logout
   end
 
   # Example URLs:

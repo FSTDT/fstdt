@@ -1,5 +1,7 @@
 defmodule FstdtWeb.CommentSubmitController do
   use FstdtWeb, :controller
+  plug FstdtWeb.TrackingPlug, generate_id: false
+  plug FstdtWeb.AccountPlug, account_type: :anon
 
   def submit(conn, %{"quote" => q, "comment" => %{"contents" => comment_markdown}, "nonce" => n}) do
     canonical_url = quote_page_url(conn, :show, q)

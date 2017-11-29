@@ -1,5 +1,6 @@
 defmodule FstdtWeb.LegacyController do
   use FstdtWeb, :controller
+  plug FstdtWeb.TrackingPlug, generate_id: true
 
   def default(conn, _params) do
     redirect(conn, to: index_path(conn, :index))

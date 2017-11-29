@@ -35,7 +35,7 @@ defmodule FstdtWeb.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   plug Plug.Session,
     store: :cookie,
-    key: "_fstdt_key",
+    key: "fstdt_session",
     signing_salt: "Cot6/DRu"
 
   plug FstdtWeb.Router

@@ -1,13 +1,16 @@
 defmodule FstdtWeb.BannedIpAdminController do
   use FstdtWeb, :controller
 
+  plug FstdtWeb.TrackingPlug, generate_id: true
+  plug FstdtWeb.AccountPlug, account_type: :mod
+
   def index(conn, _params) do
     render_index(conn, add_changeset(%{}))
   end
 
   def render_index(conn, changeset) do
     render conn, "index.html",
-      banned_ips: Fstdt.Repo.all(Fstdt.BannedIpsSchema),
+      # banned_ips: Fstdt.Repo.all(Fstdt.BannedIpsSchema),
       changeset: changeset
   end
 
@@ -35,9 +38,9 @@ defmodule FstdtWeb.BannedIpAdminController do
       date_banned: DateTime.utc_now(),
       banned_by_id: 1, # TODO: pull this from the environment
     }, params)
-    %Fstdt.BannedIpsSchema{}
-    |> cast(params, [:address, :date_banned, :date_expires, :remarks, :banned_by_id])
-    |> validate_required([:address, :date_banned, :date_expires, :banned_by_id])
+    #%Fstdt.BannedIpsSchema{}
+    #|> cast(params, [:address, :date_banned, :date_expires, :remarks, :banned_by_id])
+    #|> validate_required([:address, :date_banned, :date_expires, :banned_by_id])
   end
 
   def delete(conn, %{"id" => id}) do

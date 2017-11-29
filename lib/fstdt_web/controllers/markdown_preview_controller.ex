@@ -1,6 +1,9 @@
 defmodule FstdtWeb.MarkdownPreviewController do
   use FstdtWeb, :controller
 
+  plug FstdtWeb.TrackingPlug, generate_id: false
+  plug FstdtWeb.AccountPlug, account_type: :anon
+
   def preview(conn, %{"url" => url, "contents" => contents}) do
     {:ok, html} = Rundown.convert(url, contents)
     conn

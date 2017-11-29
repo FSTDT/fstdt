@@ -1,6 +1,9 @@
 defmodule FstdtWeb.QuotePageController do
   use FstdtWeb, :controller
 
+  plug FstdtWeb.TrackingPlug, generate_id: true
+  plug FstdtWeb.AccountPlug, account_type: :anon
+
   def show(conn, %{"quote" => q}) do
     body_markdown = """
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget consequat nibh. Fusce massa leo, pretium ac diam at, condimentum facilisis magna. Aliquam turpis erat, vehicula sed elit ac, imperdiet faucibus tellus. Praesent tempor tellus ligula, non euismod mi venenatis sed. Suspendisse non risus eget purus euismod lobortis vitae id diam. Nam magna massa, efficitur ac ligula nec, molestie fermentum orci. Nulla facilisi. Sed gravida mollis tortor, eget pulvinar nisl aliquet id. Suspendisse vitae augue in augue sodales rutrum ut ut dolor. Cras facilisis pharetra leo, et dictum mi scelerisque vitae. Nullam dapibus urna at purus maximus, quis ultrices metus cursus.
