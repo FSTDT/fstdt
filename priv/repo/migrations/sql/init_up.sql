@@ -24,7 +24,7 @@ CREATE TABLE "stats_IPs" (
     You can use WITH...AS to join a self-referencing table with itself.
     This is relevant to both useragent tables, and it will popup again in KPA.
 */
-   
+
 CREATE TABLE "stats_UAs_nvi" (
     "id"                BIGSERIAL PRIMARY KEY,
     "string"            CHARACTER VARYING (512) UNIQUE NOT NULL,
@@ -293,3 +293,5 @@ CREATE TABLE "comments" (
 -- CREATE TABLE "sotdt" ();
 -- CREATE TABLE "site_issues" ();
 -- CREATE TABLE "site_log" ();
+
+\i init_sp.sql;

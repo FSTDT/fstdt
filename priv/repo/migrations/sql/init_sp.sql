@@ -1,9 +1,5 @@
 /*
 
-TODO: 
-- Add \i init_sp.sql to end of init_up.sql. (This *may* require an absolute path, but no big deal.)
-- Fill in any missing columns in init_up.sql.
-
 RANDOM NOTES:
 - Will try to keep most commentary and/or documentation in the docs directory.
 - "arg_" and "ret_" are pretty much my own idiolectual thing for readability and sanity. They're kinda self-explanatory.
