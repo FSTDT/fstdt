@@ -3,6 +3,22 @@ defmodule Fstdt.Schema do
   Exports and converts data between SQL and Elixir.
   """
 
+  defmodule NormalizedTextType do
+    @moduledoc """
+    Normalized strings are used to find and deduplicate names that are "the same."
+
+    This data type converts to NFD, and then strips out combining marks.
+    Do not show these strings to users. Use them only to identify likely duplicates.
+    """
+    @behaviour Ecto.Type
+    def type, do: :string
+    def cast(text), do: text
+    def load(text), do: text
+    def dump(text) do
+      text |> String.normalize(:nfc) |> String.downcase()
+    end
+  end
+
   defmodule AccountType do
     @moduledoc """
     Custom Ecto data type for account-types.
@@ -53,8 +69,7 @@ defmodule Fstdt.Schema do
     use Ecto.Schema
     schema "users" do
       field :username, :string, nil: false
-      # TODO: create a data type for Fstdt.Schema.Normalized
-      field :normalized, :string, nil: false
+      field :normalized, Fstdt.Schema.NormalizedTextType, nil: false
       field :is_registered, :boolean, nil: false
       field :date_first_seen, :utc_datetime, nil: false
     end
@@ -68,8 +83,7 @@ defmodule Fstdt.Schema do
     schema "accounts" do
       belongs_to :user, Fstdt.Schema.Users
       field :username, :string, nil: false
-      # TODO: create a data type for Fstdt.Schema.Normalized
-      field :normalized, :string, nil: false
+      field :normalized, Fstdt.Schema.NormalizedTextType, nil: false
       field :password_hash, :string, nil: false
       field :password_salt, :string, nil: false
       field :registration_date, :utc_datetime, nil: false
