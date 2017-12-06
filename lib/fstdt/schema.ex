@@ -12,10 +12,10 @@ defmodule Fstdt.Schema do
     """
     @behaviour Ecto.Type
     def type, do: :string
-    def cast(text), do: text
-    def load(text), do: text
+    def cast(text), do: {:ok, text}
+    def load(text), do: {:ok, text}
     def dump(text) do
-      text |> String.normalize(:nfc) |> String.downcase()
+      {:ok, text |> String.normalize(:nfc) |> String.downcase()}
     end
   end
 
@@ -37,14 +37,13 @@ defmodule Fstdt.Schema do
     """
     @behaviour Ecto.Type
     def type, do: :integer
-    def cast(i) when is_integer(i), do: {:ok, i}
-    def cast(:anon), do: {:ok, 0}
-    def cast(:noob), do: {:ok, 1}
-    def cast(:user), do: {:ok, 2}
-    def cast(:leader), do: {:ok, 3}
-    def cast(:mod), do: {:ok, 4}
-    def cast(:admin), do: {:ok, 5}
-    def cast(_), do: :error
+    def dump(:anon), do: {:ok, 0}
+    def dump(:noob), do: {:ok, 1}
+    def dump(:user), do: {:ok, 2}
+    def dump(:leader), do: {:ok, 3}
+    def dump(:mod), do: {:ok, 4}
+    def dump(:admin), do: {:ok, 5}
+    def dump(d) when is_integer(d), do: {:ok, d}
     def load(0), do: {:ok, :anon}
     def load(1), do: {:ok, :noob}
     def load(2), do: {:ok, :user}
@@ -52,13 +51,39 @@ defmodule Fstdt.Schema do
     def load(4), do: {:ok, :mod}
     def load(5), do: {:ok, :admin}
     def load(_), do: :error
-    def dump(data), do: cast(data)
+    def cast(data) when is_integer(data), do: load(data)
+    def cast(data), do: {:ok, data}
 
     @doc "Check if `a` is greater than `b`"
     def gt?(a, b) do
-      {:ok, a} = cast(a)
-      {:ok, b} = cast(b)
+      {:ok, a} = dump(a)
+      {:ok, b} = dump(b)
       a > b
+    end
+  end
+
+  defmodule BannedContent do
+    @moduledoc """
+    Names, IPs, and stuff that can't be posted.
+    """
+    use Ecto.Schema
+    schema "banned_content" do
+      field :text, Fstdt.Schema.NormalizedTextType, nil: false
+      field :is_ip_address, :boolean, nil: false, default: false
+      field :is_comment_text, :boolean, nil: false, default: false
+      field :is_quote_text, :boolean, nil: false, default: false
+      field :is_sotdt_text, :boolean, nil: false, default: false
+      field :is_issues_text, :boolean, nil: false, default: false
+      field :is_fundie, :boolean, nil: false, default: false
+      field :is_site, :boolean, nil: false, default: false
+      field :is_url, :boolean, nil: false, default: false
+      field :is_useragent, :boolean, nil: false, default: false
+      field :is_username, :boolean, nil: false, default: false
+      field :is_password, :boolean, nil: false, default: false
+      field :is_email, :boolean, nil: false, default: false
+      field :is_shadowbanned, :boolean, nil: false, default: false
+      field :expires, :boolean, nil: false, default: false
+      field :date_expires, :utc_datetime, nil: true
     end
   end
 

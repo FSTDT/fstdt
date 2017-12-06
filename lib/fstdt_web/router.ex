@@ -71,9 +71,9 @@ defmodule FstdtWeb.Router do
     delete "/q/:quote", QuoteAdminController, :delete
     put "/c/:comment", CommentAdminController, :edit
     delete "/c/:comment", CommentAdminController, :delete
-    get "/banned-ip/", BannedIpAdminController, :index
-    post "/banned-ip/", BannedIpAdminController, :add
-    delete "/banned-ip/:id", BannedIpAdminController, :delete
+    get "/banned/", BannedContentAdminController, :index
+    post "/banned/", BannedContentAdminController, :add
+    delete "/banned/:id", BannedContentAdminController, :delete
   end
 
   # FSTDT is linked to. A lot. We are *not* going to break those old links.

@@ -1,0 +1,14 @@
+<%= form_for @changeset, banned_content_admin_path(@conn, :add), [as: :banned_content, method: :post], fn f -> %>
+  <div id=form-input><label for="banned_content_text">Ban</label> <%= text_input f, :text %></div>
+  <div id=form-input><label for="banned_content_date_expires">Expires</label> <%= text_input f, :date_expires, type: :datetime %></div>
+  <%= submit "Add ban line", class: "btn" %>
+<% end %>
+
+<ul>
+  <%= for %{id: id, text: text} <- @banned_content do %>
+    <li>
+      <%= text %>
+      <%= link "Delete", to: banned_content_admin_path(@conn, :delete, id), method: :delete, class: "btn btn--danger" %>
+    </li>
+  <% end %>
+</ul>
