@@ -179,18 +179,18 @@ CREATE TABLE "accounts" (
     -- "registration_session"  BIGINT NOT NULL REFERENCES "sessions" ("id") ON UPDATE CASCADE ON DELETE RESTRICT,
     "registration_email"    CHARACTER VARYING (256) NOT NULL,
     "current_email"         CHARACTER VARYING (256) NOT NULL,
-    "account_type"          BIGINT NOT NULL DEFAULT 1                                                                                        
-);                                                                                      
-                                                                                                
+    "account_type"          BIGINT NOT NULL DEFAULT 1
+);
+
 INSERT INTO "accounts" 
     ("id", "user_id", "username", "normalized", "password_hash", "password_salt", "registration_date",
      "registration_email", "current_email", "account_type")
 VALUES
     (0, 0, '(anonymous)', 'anonymous', '0', '0', '0001/01/01 00:00', 'none@fstdt.org', 'none@fstdt.org', 0);
-     
+
 -- CREATE TABLE "account_requests" 
 -- TODO: Create views and SPs for each of these.
-                                                                                                
+
 CREATE TABLE "banned_content" (
     "id"                BIGSERIAL PRIMARY KEY,
     "text"              CHARACTER VARYING (512) UNIQUE NOT NULL,
@@ -208,9 +208,9 @@ CREATE TABLE "banned_content" (
     "is_email"          BOOLEAN NOT NULL DEFAULT FALSE,
     "is_shadowbanned"   BOOLEAN NOT NULL DEFAULT FALSE,
     "expires"           BOOLEAN NOT NULL DEFAULT FALSE,
-    "date_expires"      TIMESTAMP   
+    "date_expires"      TIMESTAMP
 );
-                                                                                                
+
 CREATE TABLE "fundies" (
     "id"               BIGSERIAL PRIMARY KEY,
     "name"             CHARACTER VARYING (128) UNIQUE NOT NULL,
@@ -229,7 +229,7 @@ create table "categories" (
     abbreviation        CHARACTER VARYING (8) UNIQUE NOT NULL,
     description         CHARACTER VARYING (128) UNIQUE NOT NULL
 );
-                                                                                                                                                                                        
+
 
 CREATE TABLE "quotes" (
     "id"                    BIGSERIAL PRIMARY KEY,
@@ -259,10 +259,10 @@ CREATE TABLE "quotes" (
     "is_thread_visible"     BOOLEAN NOT NULL DEFAULT TRUE,
     "use_yscodes"           BOOLEAN NOT NULL DEFAULT FALSE
 );
-                                                                                                
+
 -- CREATE TABLE "quote_votes" ();
 -- CREATE TABLE "quote_visits" ();
-                                                                                                
+
 CREATE TABLE "quotes_categories_link" (
     quote_id            BIGINT REFERENCES "quotes" ("id") ON UPDATE CASCADE ON DELETE RESTRICT,
     category_id         BIGINT REFERENCES "categories" ("id") ON UPDATE CASCADE ON DELETE RESTRICT,
