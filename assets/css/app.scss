@@ -1,252 +1,104 @@
 @import "normalize";
 
-$transition-duration: 0.1s;
-
-// Colors of the main content.
-$main-background-color: #EEE;
-$main-foreground-color: #000;
-
-// Colors of the header and footer.
-$chrome-background-color: #333;
-$chrome-border-color: #666;
-$chrome-foreground-color: #F00;
-
-// Lines of text will not get wider than this
-$max-line-width: 1000px;
-
-// Lines of text will not get narrower than this.
-$min-line-width: 500px;
-
-// Put this amount of space between the edge of the screen and any text.
-$line-edge-padding: 16px;
-
-// The size of the border between the header/footer and the main content.
-$chrome-border-width: 8px;
-
-// The size of the line separating each listing from each other,
-// and around the listing's callout.
-$listing-line-width: 1px;
-
-// Color of the lines separating each listing.
-$listing-line-color: #666;
-
-// The amount of space between each listing, including the line.
-$listing-separation-width: 16px;
-
-// The total width of the aside
-$listing-aside-width: 300px;
-
-// The amount of space between the aside and the listing.
-$listing-aside-spacing: 16px;
-
-// The total amount of space taken by the content at maximum width,
-// including the padding.
-$content-total-width: $max-line-width + $line-edge-padding * 2;
-
-// The total amount of space consumed by the aside, including the border and padding.
-$listing-aside-total-width:
-  $listing-aside-spacing +
-  $listing-aside-width;
-
-// The maximum width where the aside can be left to hang off the side of the content
-$listing-available-max-width:
-  $listing-aside-total-width * 2 +
-  $content-total-width;
-
-// The width when the callout cannot just be outside the content,
-// because that makes the text column too narrow.
-$listing-collapse-max-width:
-  $min-line-width + $listing-aside-total-width;
-
-// The amount of space to pad a callout with
-$callout-padding: 16px;
-$callout-border-width: 1px;
-$callout-border-color: #666;
-
-// Smart text entry fields.
-$textentry-padding: 16px;
-$textentry-border-width: 1px;
-$textentry-border-color: #666;
-$textentry-border-width-active: 2px;
-$textentry-border-color-active: #333;
-$textentry-background-active: #FFF;
-
-// Subtle buttons
-$btn-margin: 8px;
-$btn-padding: 8px;
-$btn-border-width: 1px;
-$btn-color: #0000EE;
-$btn-background: #BBCCFF;
-$btn-background-active: #5566CC;
-$btn-color-active: #FFF;
-$btn-danger-color: #CC4466;
-$btn-danger-background: #FFCCCC;
-$btn-danger-color-active: #FFF;
-$btn-danger-background-active: #CC4466;
-$btn-other-color: #000;
-$btn-other-background: #CCC;
-$btn-other-color-active: #FFF;
-$btn-other-background-active: #666;
-$btn-visited-color: #551A8B;
-
-// The site's fantasy font
 @font-face {
-  font-family: "FundieForte";
-  src: url("/FORTE.TTF") format("truetype");
+  font-family: 'FundieForte';
+  src: url('/FORTE.TTF') format('truetype');
 }
 
 html {
-  // Always show the scrollbar on the side; avoids ugly jumping
-  overflow-y: scroll;
-  background: $main-background-color;
-  color: $main-foreground-color;
+  height: 100%;
 }
 
-* {
-  transition-duration: $transition-duration;
+body {
+  background-color: #666;
+  font-family: serif;
+  min-height: 100%;
 }
 
-// A little piece of CSS that should be built-in to the browsers,
-// but can't be because backwards compat.
-//
-// We've got "block links", which have a larger clickable area than the text itself.
-// Making the link change look when you mouse over them makes it easier for the user
-// to tell that it's there.
-:link, :visited {
-  text-decoration: underline;
-  color: $btn-color;
-}
-:visited {
-  color: $btn-visited-color;
-}
-:link:hover,
-:visited:hover {
-  text-decoration: none;
-}
-
-// The site's top and bottom areas,
-// including things like the site name and mod tools
-.chrome {
-  background: $chrome-background-color;
-  color: $chrome-foreground-color;
-  border: solid 0 $chrome-border-color;
-  h1 {
-    margin: 0;
-    font-family: "FundieForte", fantasy, sans-serif;
-  }
-  &.top {
-    border-bottom-width: $chrome-border-width;
-  }
-  &.bottom {
-    border-top-width: $chrome-border-width;
-  }
-}
-
-// Limit line length for readability reasons
-.layout-wrapper {
-  max-width: $max-line-width;
+.wrapper {
+  max-width: 70em;
   margin: 0 auto;
-  padding: $line-edge-padding;
+  background: #EEE;
+  border-left: 0.5em solid #333;
+  border-right: 0.5em solid #333;
+  padding: 0.5em;
+  flex-grow: 1;
 }
 
-// A line-separated listing,
-// used to present both quotes and comments
-.listing {
-  & > .item {
-    display: block;
-    position: relative;
-    border-top: solid $listing-line-width $listing-line-color;
-    padding-top: ($listing-separation-width/2)-($listing-line-width/2);
-    margin-top: ($listing-separation-width/2)-($listing-line-width/2);
-    &:first-child {
-      border-top: none;
-      padding-top: 0;
-      margin-top: 0;
-    }
-  }
-  & > .item--compact {
-    padding-top: 0;
-    margin-bottom: -(($listing-separation-width/2)-($listing-line-width/2));
-  }
-  // Modifies the layout if this listing has "asides"
-  // which are sticky pieces of meta-info to the right (or top) of the an item.
-  &.no-line > .item {
-    border-top: none;
-    margin-top: $listing-separation-width * 2;
-    padding-top: 0;
-  }
-  &.has-aside {
-    & > .item {
-      & > aside {
-        position: sticky;
-        z-index: 100;
-        top: $listing-separation-width;
-        width: 0;
-        float: right;
-        & > div {
-          width: $listing-aside-width;
-          margin-left: $listing-aside-spacing;
-        }
-      }
-      @media (max-width: $listing-available-max-width) {
-        padding-right: $listing-aside-total-width;
-      }
-      @media (max-width: $listing-collapse-max-width) {
-        padding-right: 0;
-        & > aside {
-          float: none;
-          width: auto;
-          & > div {
-            width: auto;
-            margin-left: 0;
-          }
-        }
-      }
-    }
-  }
+.navbar {
+  text-align: center;
+  font-family: sans-serif;
 }
-.aside-narrow-mode-show {
-  display: none;
-}
-// Aside-centric responsive helper classes.
-@media (max-width: $listing-collapse-max-width) {
-  .aside-narrow-mode-hide {
-    display: none !important;
+
+a, .link {
+  text-decoration: underline;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  color: #0000c0;
+  font: inherit;
+  cursor: pointer;
+  .navbar & {
+    text-decoration: none;
   }
-  .aside-narrow-mode-show {
-    display: block !important;
+  &:visited {
+    color: #8050af;
+    text-decoration: underline;
+  }
+  &:hover, &:active {
+    color: #FF7733;
+    text-decoration: underline;
   }
 }
 
-// Callouts; just put it in a box
-.callout {
-  background: $main-background-color;
-  color: $main-foreground-color;
-  padding: $callout-padding;
-  margin: $callout-padding 0;
-  border: solid $callout-border-width $callout-border-color;
-  p {
-    margin-bottom: 0;
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-}
-
-.form-group {
+.row {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   & > * {
-    flex-grow: 1
+    margin: 0 0.5em;
   }
+}
+
+.media {
+  padding-bottom: 1em;
+  & > img {
+    float: left;
+    margin-right: 0.5em;
+  }
+  & > * {
+    overflow: hidden;
+  }
+  &:after {
+    content: ". . . . . . .";
+    display: block;
+    clear: both;
+    width: 0;
+    height: 0;
+  }
+}
+
+.compact {
+  h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    font-size: 1em;
+  }
+}
+
+.divided {
+  border-top: solid 1px #000;
+  margin-top: 0.25em;
+  padding-top: 0.25em;
 }
 
 // Smart text entry fields, rather than having their own scrollbars,
 // just size themselves to whatever the user types.
 .textentry-box {
-  padding: $textentry-padding - $textentry-border-width;
+  padding: 0.25em 0.5em;
   margin: 0;
-  border: solid $textentry-border-width $textentry-border-color;
+  border: solid 1px #999;
+  border-top-color: #000;
   color: inherit;
   font-family: inherit;
   font-size: inherit;
@@ -254,23 +106,25 @@ html {
   z-index: 1;
   resize: none;
   line-height: inherit;
-  background: $main-background-color;
+  background: #F9F9F9;
   transition-property: background;
-  outline: solid 0px $textentry-border-color-active;
+  outline: solid 0 #000;
   overflow: hidden;
   &:hover, &:active, &:focus {
     background: #FFF;
   }
   &:active, &:focus {
-    outline-width: $textentry-border-width-active - $textentry-border-width;
+    outline-width: 1px;
+    border-color: #000;
   }
 }
 .textentry-box--compact {
-  padding: (($textentry-padding / 2) - $textentry-border-width) ($textentry-padding - $textentry-border-width);
-  margin: ($textentry-padding / 2) 0;
+  padding: 0.125em 0.25em;
+  margin: 0.125em 0;
 }
 .textentry-box-label {
   text-transform: uppercase;
+  font-size: 0.75em;
 }
 .textentry textarea {
   position: absolute;
@@ -285,51 +139,34 @@ html {
 }
 
 .btn {
-  border: none;
-  outline: none;
+  padding: 0.125em 0.25em;
+  margin: 0.125em 0;
+  border: solid 1px #999;
+  border-bottom-color: #000;
+  color: inherit;
   font-family: inherit;
   font-size: inherit;
-  padding: $btn-padding;
-  margin: $btn-margin;
-  color: $btn-color;
-  text-align: center;
-  min-width: 40px;
+  white-space: pre-wrap;
+  z-index: 1;
+  resize: none;
   line-height: inherit;
-  text-decoration: underline;
+  background: #F9F9F9;
   transition-property: background;
+  outline: solid 0 #000;
+  overflow: hidden;
   &:hover, &:active, &:focus {
-    background: $btn-background;
-    text-decoration: none;
+    background: #FFF;
   }
-  &[aria-checked="true"] {
-    background: $btn-background-active;
-    color: $btn-color-active;
-    text-decoration: none;
+  &:active, &:focus {
+    outline-width: 1px;
+    border-color: #000;
   }
 }
-.btn--danger {
-  color: $btn-danger-color;
-  &:hover, &:active, &:focus {
-    background: $btn-danger-background;
-  }
-  &[aria-checked="true"] {
-    background: $btn-danger-background-active;
-    color: $btn-danger-color-active;
-  }
+
+.form {
 }
-.btn--other {
-  color: $btn-other-color;
-  &:hover, &:active, &:focus {
-    background: $btn-other-background;
-  }
-  &[aria-checked="true"] {
-    background: $btn-other-background-active;
-    color: $btn-other-color-active;
-  }
-}
-.btn-interstitial {
-  padding: $btn-padding;
-  margin: $btn-margin;
-  display: inline-block;
-  line-height: inherit;
+.form-group {
+  margin: 0.5em 0;
+  display: flex;
+  flex-direction: column;
 }

@@ -146,12 +146,13 @@ create table "users" (
     "username"          CHARACTER VARYING (128) NOT NULL,
     "normalized"        CHARACTER VARYING (128) NOT NULL,
     "is_registered"     BOOLEAN NOT NULL DEFAULT FALSE,
-    "date_first_seen"   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "inserted_at"       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at"        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE              ("is_registered", "username"),
     UNIQUE              ("is_registered", "normalized")
 );
 
-INSERT INTO "users" ("id", "username", "normalized", "is_registered", "date_first_seen") 
+INSERT INTO "users" ("id", "username", "normalized", "is_registered", "inserted_at")
     VALUES (0, '(anonymous)', 'anonymous', TRUE, '0001/01/01 00:00');
 
 -- Differences in account types will be documented elsewhere.
@@ -233,12 +234,11 @@ create table "categories" (
 
 CREATE TABLE "quotes" (
     "id"                    BIGSERIAL PRIMARY KEY,
-    "date_posted"           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "submitter"             BIGINT NOT NULL DEFAULT 0 REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE RESTRICT,
-    "fundie"                BIGINT NOT NULL REFERENCES "fundies" ("id") ON UPDATE CASCADE ON DELETE RESTRICT,
-    "site_name"             BIGINT NOT NULL REFERENCES "site_names" ("id") ON UPDATE CASCADE ON DELETE RESTRICT,
+    "submitter_id"          BIGINT NOT NULL DEFAULT 0 REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE RESTRICT,
+    "fundie_id"             BIGINT NOT NULL REFERENCES "fundies" ("id") ON UPDATE CASCADE ON DELETE RESTRICT,
+    "site_name_id"          BIGINT NOT NULL REFERENCES "site_names" ("id") ON UPDATE CASCADE ON DELETE RESTRICT,
     "url_original"          CHARACTER VARYING (2048) NOT NULL, -- yeah, i have seriously seen links borderline this long... 
-    "url_content"           CHARACTER VARYING (2048) NOT NULL, -- for media posts only. 
+    "url_content"           CHARACTER VARYING (2048) NOT NULL, -- for media posts only.
     "url_mirror"            CHARACTER VARYING (2048) NOT NULL, -- archive.is link
     "is_image_post"         BOOLEAN NOT NULL DEFAULT FALSE,
     "is_video_post"         BOOLEAN NOT NULL DEFAULT FALSE,
@@ -257,7 +257,10 @@ CREATE TABLE "quotes" (
     "is_visible"            BOOLEAN NOT NULL DEFAULT TRUE,
     "is_thread_locked"      BOOLEAN NOT NULL DEFAULT FALSE,
     "is_thread_visible"     BOOLEAN NOT NULL DEFAULT TRUE,
-    "use_yscodes"           BOOLEAN NOT NULL DEFAULT FALSE
+    "is_submitter_visible"     BOOLEAN NOT NULL DEFAULT TRUE,
+    "use_yscodes"           BOOLEAN NOT NULL DEFAULT FALSE,
+    "inserted_at"           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at"            TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- CREATE TABLE "quote_votes" ();
@@ -295,3 +298,4 @@ CREATE TABLE "comments" (
 -- CREATE TABLE "site_log" ();
 
 \i init_sp.sql;
+\i init_categories.sql;

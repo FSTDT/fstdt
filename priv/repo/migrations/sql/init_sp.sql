@@ -12,3 +12,14 @@ BEGIN
   UPDATE quotes SET comment_count = ret_comment_count WHERE quote_id = arg_quote_id;
 END; 
 $$ LANGUAGE plpgsql;
+
+$$
+
+CREATE OR REPLACE FUNCTION quote_in_category (arg_quote_id BIGINT, arg_category_id BIGINT, OUT ret_in_category BOOL) AS $$
+BEGIN
+	ret_in_category = (
+	  SELECT COUNT(*) > 0
+	  FROM quotes_categories_link
+	  WHERE quote_id = arg_quote_id AND category_id = arg_category_id);
+END;
+$$ LANGUAGE plpgsql;

@@ -12,9 +12,7 @@
 
   <body>
 
-    <div class="chrome top">
-      <header class="layout-wrapper">
-        <h1>Fundies Say the Darndest Things!</h1>
+    <div class=wrapper>
         <%= if not is_nil get_flash(@conn, :ok) do %>
         <div role="alert" class="alert alert--ok js--closable">
         <%= get_flash(@conn, :ok) %>
@@ -25,31 +23,25 @@
         <%= get_flash(@conn, :error) %>
         </div>
         <% end %>
-        <%= case @conn.assigns[:account] do %>
-          <% nil -> %>
-            <%= form_for @conn, auth_path(@conn, :login), [as: :login, method: :post], fn f -> %>
-              <div class=form-group>
-                <label class=textentry-box-label for=login_username>Username</label>
-                <%= text_input f, :username, class: "textentry-box textentry-box--compact" %>
-              </div>
-              <div class=form-group>
-                <label class=textentry-box-label for=login_password>Password</label>
-                <%= text_input f, :password, class: "textentry-box textentry-box--compact", type: :password %>
-              </div>
-              <%= submit "Log in", class: "btn" %>
-            <% end %>
-          <% account -> %>
-            <h2><%= account.username %></h2>
-            <%= form_for @conn, auth_path(@conn, :logout), [as: :logout, method: :post], fn f -> %>
-              <%= submit "Log out", class: "btn btn--danger" %>
-            <% end %>
-        <% end %>
-      </header>
+        <nav class="navbar toprow">
+          <a href="/">Home</a> |
+          <a href="/l/f/">Archives</a> |
+          <a href="/l/f/random/">Random</a> |
+          <a href="/l/f/commented/">Latest Comments</a> |
+          <a href="/l/f/top/">Top 250</a> |
+          <a href="/submit/">Submit Quote</a> |
+          <a href="/search/">Search</a> |
+          <%= case @conn.assigns[:account] do %>
+            <% nil -> %> <a href="/login/">Log In</a> | <a href="/register/">Register</a>
+            <% _ -> %> <button class="link" action="/logout/" method="post">Log Out</button>
+          <% end %>
+        </nav>
+        <nav class="navbar bottomrow">
+		  <a href="http://forums.fstdt.net">Forums</a> |
+		  <a href="http://irc.digibase.ca:8667/?channels=fstdt">IRC Chat</a>
+        </nav>
+        <%= render @view_module, @view_template, assigns %>
     </div>
-
-    <main class="layout-wrapper">
-      <%= render @view_module, @view_template, assigns %>
-    </main>
 
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>

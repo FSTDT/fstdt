@@ -1,0 +1,5 @@
+<%= render FstdtWeb.QuoteView, "quote.html", quote: @quote_, conn: @conn %>
+<%= form_for @conn, pub_admin_path(@conn, :review, @nonce), [method: :put, as: :review], fn f -> %>
+<%= submit "Approve", class: "btn btn-success", name: :disposition, value: "approve" %>
+<%= submit "Reject", class: "btn btn-danger", name: :disposition, value: "reject" %>
+<% end %>

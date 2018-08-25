@@ -18,6 +18,7 @@ defmodule FstdtWeb.Router do
 
     get "/", IndexController, :index
     get "/search", SearchController, :search
+    get "/login", IndexController, :login
     post "/login", AuthController, :login
     post "/logout", AuthController, :logout
   end
@@ -35,12 +36,12 @@ defmodule FstdtWeb.Router do
     pipe_through :browser
 
     get "/", QuoteListController, :index
-    get "/:topic/", QuoteListController, :show_new
-    get "/:topic/:year/", QuoteListController, :dates
-    get "/:topic/:year/:month", QuoteListController, :show_old
-    get "/:topic/commented", QuoteListController, :show_recently_commented
-    get "/:topic/random", QuoteListController, :show_random
-    get "/:topic/top", QuoteListController, :show_top
+    get "/:category/", QuoteListController, :show_new
+    get "/:category/:year/", QuoteListController, :dates
+    get "/:category/:year/:month", QuoteListController, :show_old
+    get "/:category/commented", QuoteListController, :show_recently_commented
+    get "/:category/random", QuoteListController, :show_random
+    get "/:category/top", QuoteListController, :show_top
   end
 
   scope "/submit/", FstdtWeb do
@@ -66,7 +67,8 @@ defmodule FstdtWeb.Router do
     pipe_through :browser
 
     get "/", PubAdminController, :index
-    post "/", PubAdminController, :review
+    post "/review/:nonce", PubAdminController, :review
+    put "/review/:nonce", PubAdminController, :review
     put "/q/:quote", QuoteAdminController, :edit
     delete "/q/:quote", QuoteAdminController, :delete
     put "/c/:comment", CommentAdminController, :edit

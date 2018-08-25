@@ -7,7 +7,8 @@ use Mix.Config
 
 # General application configuration
 config :fstdt,
-  ecto_repos: [Fstdt.Repo]
+  ecto_repos: [Fstdt.Repo],
+  submission_queue_path: "./submission_queue.term"
 
 # Configures the endpoint
 config :fstdt, FstdtWeb.Endpoint,

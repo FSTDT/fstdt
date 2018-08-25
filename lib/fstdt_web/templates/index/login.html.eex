@@ -1,0 +1,14 @@
+<h1 style="font: 3.25em/100% FundieForte, sans-serif; color: crimson; text-align: center; margin: 0; padding: 0;">
+  Log in
+</h1>
+<%= form_for @conn, auth_path(@conn, :login), [as: :login, method: :post], fn f -> %>
+  <div class=form-group>
+    <label class=textentry-box-label for=login_username>Username</label>
+    <%= text_input f, :username, class: "textentry-box textentry-box--compact" %>
+  </div>
+  <div class=form-group>
+    <label class=textentry-box-label for=login_password>Password</label>
+    <%= text_input f, :password, class: "textentry-box textentry-box--compact", type: :password %>
+  </div>
+  <%= submit "Log in", class: "btn" %>
+<% end %>

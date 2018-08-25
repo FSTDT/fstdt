@@ -1,28 +1,19 @@
-<% %{fundie_index: fundie_index, comment_count: comment_count, body_html: body_html, author: %{name: author}, board: %{name: board}, submitter: %{name: submitter}, url: url, id: id} = @quote %>
-<article class="item">
-  <aside><div><div class="callout">
-    <div class="listing">
-      <a class="item" href="<%= url %>">
-        Written by <strong><%= author %></strong> on <strong><%= board %></strong>
-      </a>
-      <span class="item aside-narrow-mode-hide">
-        Submitted by <strong><%= submitter %></strong>
-      </span>
-      <a class="item aside-narrow-mode-hide" href="<%= quote_page_path(@conn, :show, id) %>#comments">
-        <%= comment_count %> comments
-      </a>
-      <span class="item item--compact" style="text-align:center">
-        <button class="btn" style="float:left">😲️ WTF?!</button> <span class="btn-interstitial"><%= fundie_index %></span> <button class="btn" style="float:right">😐️ meh</button>
-      </span>
-    </div>
-  </div></div></aside>
-  <%= Phoenix.HTML.raw(body_html) %>
-  <div class="aside-narrow-mode-show callout"><div class="listing">
-    <span class="item">
-      Submitted by <strong><%= submitter %></strong>
-    </span>
-    <a class="item" href="comments">
-      <%= comment_count %> comments
-    </a>
-  </div></div>
-</article>
+<% %{inserted_at: inserted_at, votes_total: votes_total, text_html: text_html, fundie: %{name: fundie}, site_name: %{name: site_name}, submitter: %{username: username}, url_original: url_original, id: id} = @quote %>
+<section>
+    <header class="compact">
+        <p>Quote# <%= id %></p>
+    </header>
+    <main>
+        <%= Phoenix.HTML.raw(text_html) %>
+    </main>
+    <aside class="compact">
+        <p>
+            <%= fundie %>, <a href="<%= url_original %>"><%= site_name %></a>
+            <%= if id do %><a href="comments"><%= 0 %> Comments</a> [<%= inserted_at %>]<% end %>
+        </p>
+        <p>Submitted By: <%= username %></p>
+        <%= if id do %>
+          <p><button class=link>😲️ WTF?!</button> [Fundie Index: <%= votes_total %>] <button class=link>😐️ meh</button></p>
+        <% end %>
+    </aside>
+</section>

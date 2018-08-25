@@ -12,10 +12,10 @@ defmodule FstdtWeb.AuthController do
           username: username,
           normalized: username,
           is_registered: true,
-          date_first_seen: DateTime.utc_now(),
         } |> Fstdt.Repo.insert!()
         %Fstdt.Schema.Accounts{
           user: user,
+          user_id: user.id,
           username: username,
           normalized: username,
           password_hash: "",

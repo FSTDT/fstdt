@@ -1,5 +1,7 @@
 <div class="listing has-aside">
   <%= for quote_ <- @quotes do %>
+  <article class="divided">
     <%= render FstdtWeb.QuoteView, "quote.html", quote: quote_, conn: @conn %>
+  </article>
   <% end %>
 </div>
