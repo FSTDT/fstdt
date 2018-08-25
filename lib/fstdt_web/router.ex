@@ -11,6 +11,7 @@ defmodule FstdtWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   scope "/", FstdtWeb do
