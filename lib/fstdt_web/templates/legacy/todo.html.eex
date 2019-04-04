@@ -1,7 +1,0 @@
-<h1>TODO: implement redirect</h1>
-<dl>
-  <%= for {key, value} <- @items do %>
-    <dt><%= key %></dt>
-    <dd><%= value %></dd>
-  <% end %>
-</dl>
